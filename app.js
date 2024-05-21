@@ -1,0 +1,17 @@
+const express = require('express')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv').config()
+const app = express()
+app.listen(process.env.PORT)
+
+const usersRouter = require('./routes/users')
+const booksRouter = require('./routes/books')
+const likesRouter = require('./routes/likes')
+const cartsRouter = require('./routes/carts')
+const ordersRouter = require('./routes/orders')
+
+app.use('/', usersRouter)
+app.use('/books', booksRouter)
+app.use('/likes',likesRouter)
+app.use('/carts', cartsRouter)
+app.use('/orders', ordersRouter)
