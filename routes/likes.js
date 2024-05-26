@@ -1,24 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const {StatusCodes} = require('http-status-codes')
-const conn = require('../mariadb')
 router.use(express.json());
+const {addLike, removeLike} = require('../controller/likeController')
 
-// 좋아요 추가
-router.route('/:bookId')
-.post(((req,res)=>{
-    let {bookId} = req.params
-    bookId = parseInt(bookId)
-    
-    conn.query()
-    res.status(StatusCodes.OK).json({message : '좋아요 추가 완료'})
-}))
-.delete(((req,res)=>{ // 좋아요 삭제
-    let {bookId} = req.params
-    bookId = parseInt(bookId)
 
-    res.status(StatusCodes.OK).json({message : '좋아요 삭제 완료'})
-}))
+router.route('/:liked_book_id')
+.post(addLike) // 좋아요 추가
+.delete(removeLike) // 좋아요 삭제
 
 
 module.exports = router
