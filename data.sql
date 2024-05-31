@@ -72,6 +72,16 @@ SELECT * FROM Bookshop.cartItems WHERE user_id=1 AND id IN (1,3)
 INSERT INTO delivery (address, receiver, contact) VALUES ("서울시 중구", "김송아", "010-1234-5678");
 const delivery_id = SELECT max(id) FROM delivery;
 
+INSERT INTO delivery (address, receiver, contact) VALUES("인천시 중구","김장훈","010-1234-5678")
+INSERT INTO delivery (address, receiver, contact) VALUES("인천광역시 부평구","김장훈","010-1234-5678")
+INSERT INTO delivery (address, receiver, contact) VALUES("서울시 중구","김장훈","010-1234-5678")
+INSERT INTO delivery (address, receiver, contact) VALUES("인천시 중구","김송아","010-2233-4455")
+INSERT INTO delivery (address, receiver, contact) VALUES("인천시 중구","김인천","010-1111-1111")
+INSERT INTO delivery (address, receiver, contact) VALUES("인천시 중구","김인천","010-2222-1111")
+INSERT INTO delivery (address, receiver, contact) VALUES("대전시 중구","김대전","010-2323-2323")
+
+
+
 // 주문 정보 입력
 INSERT INTO orders (book_title, total_quantity, total_price, user_id, delivery_id) 
 VALUES ("어린왕자들", 3, 60000, 1, delivery_id);
