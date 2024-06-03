@@ -31,6 +31,9 @@ VALUES ("효녀 심청", 12, 0, "종이책", 9, "심청아..", "공양미 삼백
 INSERT INTO books (title, img, category_id, form, isbn, summary, detail, author, pages, contents, price, pub_date)
 VALUES ("혹부리 영감", 22, 2, "ebook", 10, "노래 주머니..", "혹 두개 되버림..", "김영감", 100, "목차입니다.", 20000, "2023-06-05");
 
+INSERT INTO books (title, img, category_id, form, isbn, summary, detail, author, pages, contents, price, pub_date)
+VALUES ("아기돼지 삼형제", 25, 2, "ebook", 10, "늑대가 나타났다.", "아기돼지 귀여워..", "김돼지", 100, "목차입니다.", 20000, "2024-05-05");
+
 SELECT * FROM books LEFT
 JOIN category ON books.category_id = category.id;
 
