@@ -6,7 +6,7 @@ const {addToCart, getCartItems, removeCartItem, userAddCartItems} = require('../
 router.route('/')
 .post(addToCart)
 .get(getCartItems)
-router.delete('/:book_id', removeCartItem)
+router.delete('/:id', removeCartItem)
 
 
 
