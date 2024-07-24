@@ -1,25 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Layout from './components/layout/Layout';
+import Home from  './pages/Home'
+import ThemeSwitcher from './components/header/ThemeSwitcher';
+import { BoookStoreThemeProvider } from './context/themeContext';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Error from './components/common/Error';
+import Signup from './components/common/Signup';
+import ResetPassword from './pages/ResetPage';
+import Login from './components/common/Login';
+import Books from './pages/Books';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout><Home/></Layout>,
+    errorElement: <Error/>
+  },
+  {
+    path: "/books",
+    element: <Layout><Books/></Layout> 
+  },
+  {
+    path: "/signup",
+    element: <Layout><Signup/></Layout> 
+  },
+  {
+    path: "/reset",
+    element: <Layout><ResetPassword/></Layout> 
+  },
+  {
+    path: "/login",
+    element : <Layout><Login/></Layout>
+  }
+])
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BoookStoreThemeProvider>
+      <ThemeSwitcher/>
+        <RouterProvider router={router}/>
+    </BoookStoreThemeProvider>
   );
 }
 
