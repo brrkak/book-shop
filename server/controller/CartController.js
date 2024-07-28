@@ -66,8 +66,6 @@ const getCartItems = (req,res)=>{ // 장바구니 조회 / 선택된 장바구�
             }
             if(results.length){
                 return res.status(StatusCodes.OK).json(results)
-            }else{
-                return res.status(StatusCodes.NOT_FOUND).end()
             }
         })
     }   

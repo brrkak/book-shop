@@ -50,7 +50,7 @@ const login = (req,res) => {
                 id : loginUser.id,
                 email:loginUser.email,
             }, process.env.PRIVATE_KEY, {
-                expiresIn : '5m',
+                expiresIn : '10000m',
                 issuer : 'janghoon'
             })
             res.cookie('token', token, {
