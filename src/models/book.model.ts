@@ -19,3 +19,13 @@ export interface BookDetail extends Book{
     categoryName : string;
     liked: boolean;
 }
+
+export interface BookReivewItem {
+    id: number;
+    username: string;
+    content: string;
+    createdAt: string;
+    score: number;
+}
+
+export type BookReivewItemWrite = Pick<BookReivewItem, "content" | "score">;

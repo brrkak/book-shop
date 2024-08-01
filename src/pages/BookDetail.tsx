@@ -1,14 +1,18 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useBook } from "../hooks/useBook";
-import { getImgSrc } from "../utils/image";
-import Title from "../components/common/Title";
-import { BookDetail as IBookDetail} from "../models/book.model";
-import { formatDate, formatNumber } from "../utils/format";
+import { useBook } from "@/hooks/useBook";
+import { getImgSrc } from "@/utils/image";
+import Title from "@/components/common/Title";
+import { BookDetail as IBookDetail} from "@/models/book.model";
+import { formatDate, formatNumber } from "@/utils/format";
 import { Link } from "react-router-dom";
-import EllipsisBox from "../components/common/EllipsisBox";
-import LikeButton from "../components/book/LikeButton";
-import AddToCart from "../components/book/AddToCart";
+import EllipsisBox from "@/components/common/EllipsisBox";
+import LikeButton from "@/components/book/LikeButton";
+import AddToCart from "@/components/book/AddToCart";
+import BookReivew from "@/components/book/BookReivew";
+import { Tab, Tabs } from "@/components/common/Tabs";
+import Modal from "@/components/common/Modal";
+import { useState } from "react";
 
 const bookInfoList = [
   {
@@ -49,15 +53,19 @@ const bookInfoList = [
 
 const BookDetail = () => {
   const {bookId} = useParams();
-  const {book, likeToggle} = useBook(bookId);
-  console.log(book);
+  const {book, likeToggle, reivews, addReivew} = useBook(bookId);
+
+  const [isImgOpen, setIsImgOpen] = useState(false);
   if(!book) return null
   return (
     <BookDetailStyle>
       <header className="header">
-        <div className="img">
+        <div className="img" onClick={() => setIsImgOpen(true)}>
           <img src={getImgSrc(book.img)} alt={book.title} />
         </div>
+        <Modal isOpen={isImgOpen} onClose={()=> setIsImgOpen(false)}>
+          <img src={getImgSrc(book.img)} alt={book.title} />
+        </Modal>
    
       <div className="info">
           <Title size="large" color="text">
@@ -79,12 +87,22 @@ const BookDetail = () => {
       </div>
       </header>
       <div className="content">
-          <Title size="medium">상세 설명</Title>
-          <EllipsisBox linelimit={4}>
-            {book.detail}
-          </EllipsisBox>
-          <Title size="medium">목차</Title>
-          <p className="index">{book.contents}</p>
+          <Tabs>
+            <Tab title="상세설명">
+              <Title size="medium">상세 설명</Title>
+              <EllipsisBox linelimit={4}>
+                {book.detail}
+              </EllipsisBox>
+            </Tab>
+            <Tab title="목차">
+              <Title size="medium">목차</Title>
+              <p className="index">{book.contents}</p>
+            </Tab>
+            <Tab title="리뷰">
+              <Title size="medium">리뷰</Title>
+              <BookReivew reviews={reivews  } onAdd={addReivew} />
+            </Tab>
+          </Tabs>
       </div>
     </BookDetailStyle>
   )
@@ -96,7 +114,11 @@ const BookDetailStyle = styled.div`
     align-items: start;
     gap : 24px;
     padding: 0 0 24px 0;
-  }
+  
+    > div {
+      position: relative !important; 
+    }
+
   .img {
     flex : 1;
     img {
@@ -109,18 +131,19 @@ const BookDetailStyle = styled.div`
     display: flex;
     flex-direction: column;
     gap : 12px;
+ 
+      dl {
+        display: flex;
+        margin: 0;
 
-    dl {
-      display: flex;
-      margin: 0;
-
-      dt {
-        width: 80px;
-        color: ${({theme}) => theme.color.secondary}
-      }
-      a {
-        color: ${({theme}) => theme.color.primary}
-        
+        dt {
+          width: 80px;
+          color: ${({theme}) => theme.color.secondary}
+        }
+        a {
+          color: ${({theme}) => theme.color.primary}
+          
+        }
       }
     }
   }
@@ -131,3 +154,4 @@ const BookDetailStyle = styled.div`
   `
 
 export default BookDetail
+

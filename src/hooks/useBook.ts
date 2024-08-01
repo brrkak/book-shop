@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react"
-import { BookDetail } from "../models/book.model"
+import { BookDetail, BookReivewItem, BookReivewItemWrite } from "../models/book.model"
 import { fetchBook, likeBook, unlikeBook } from "../api/books.api";
 import { useAuthStore } from "../store/authStore";
 import { useAlert } from "./useAlert";
 import { addCart } from "../api/carts.api";
+import { addBookReivew, fetchBookReivew } from "@/api/reivew.api";
+import { useToast } from "./useToast";
 
 export const useBook = (bookId: string | undefined) => {
     const [book, setBook] = useState<BookDetail | null>(null);
     const [cartAdded, setCartAdded] = useState(false)
-
+    const [reivews, setReivew] = useState<BookReivewItem[]>([]);
     const {isloggedIn} =useAuthStore();
     const {showAlert} = useAlert();
+    const {showToast} = useToast();
+
     const likeToggle = () => {
 
         if(!isloggedIn){
@@ -26,7 +30,8 @@ export const useBook = (bookId: string | undefined) => {
                     ...book,
                     liked: false,
                     likes: book.likes - 1,
-                })
+                });
+                showToast("좋아요가 취소되었습니다.")
             })
         }else{
             likeBook(book.id).then(() => {
@@ -35,6 +40,7 @@ export const useBook = (bookId: string | undefined) => {
                     liked: true,
                     likes: book.likes + 1,
                 })
+                showToast("좋아요 성공했습니다.")
             })
         }
     }
@@ -59,8 +65,23 @@ export const useBook = (bookId: string | undefined) => {
         fetchBook(bookId).then((book) => {
             setBook(book);
         });
-    },[bookId])
-    return {book, likeToggle,addToCart,cartAdded};
+
+        fetchBookReivew(bookId).then((reivews) => {
+            setReivew(reivews);
+        })
+    },[bookId]);
+    
+    const addReivew = (data:BookReivewItemWrite) => {
+        if(!book) return;
+
+        addBookReivew(book.id.toString(), data).then((res) => {
+            // fetchBookReivew(book.id.toString()).then((reivews) => {
+            //     setReivew(reivews);
+            // })  
+            showAlert(res.message);
+        })
+    }
+    return {book, likeToggle,addToCart,cartAdded, reivews, addReivew};
 }
 
 

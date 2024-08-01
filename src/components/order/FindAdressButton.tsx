@@ -1,4 +1,3 @@
-import styled from "styled-components"
 import Button from "../common/Button"
 import { useEffect } from "react";
 
@@ -40,6 +39,5 @@ const FindAdressButton = ({onCompleted}:Props) => {
   )
 }
 
-const FindAdressButtonStyle = styled.div``
 
 export default FindAdressButton
